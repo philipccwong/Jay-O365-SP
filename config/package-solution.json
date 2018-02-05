@@ -1,0 +1,13 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "jay-o-365-sp-client-side-solution",
+    "id": "b20bf050-7493-4b82-81a2-643edd8d92b3",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true
+  },
+  "paths": {
+    "zippedPackage": "solution/jay-o-365-sp.sppkg"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.4.0",
+    "libraryName": "jay-o-365-sp",
+    "libraryId": "b20bf050-7493-4b82-81a2-643edd8d92b3",
+    "environment": "spo"
+  }
+}
