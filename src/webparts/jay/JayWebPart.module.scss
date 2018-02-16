@@ -5,21 +5,25 @@
   .list {
     color: #333333;
     font-family: 'Segoe UI Regular WestEuropean', 'Segoe UI', Tahoma, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: normal;
     box-sizing: border-box;
-    margin: 10;
-    padding: 10;
-    line-height: 30px;
+    margin: 150;
+    padding: 20;
     list-style-type: none;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   }
   
+  ul li:hover {
+    background: #1c1c1c;
+    color: red;
+    }
+
   .listItem {
     color: #333333;
     vertical-align: center;
     font-family: 'Segoe UI Regular WestEuropean', 'Segoe UI', Tahoma, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: normal;
     box-sizing: border-box;
     margin: 0;
@@ -62,7 +66,7 @@
   }
 
   .description {
-    @include ms-font-l;
+    @include ms-font-s;
     @include ms-fontColor-white;
   }
 

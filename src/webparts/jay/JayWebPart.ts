@@ -45,6 +45,17 @@ export interface StorageMetric {
 
 }
 
+export interface Subsites {
+  value: Subsite[];
+}
+
+export interface Subsite{
+  Title: string;
+  ServerRelativeUrl: string;
+  Url: string;
+}
+
+
 export interface ISPList {
   Title: string;
   Id: string;
@@ -86,7 +97,8 @@ export default class JayWebPart extends BaseClientSideWebPart<IJayWebPartProps> 
             <span class="${ styles.title }">Your Site Information </span>
           </div>
         </div>
-        <div id="spListContainer" />
+        <div id="subsiteList" />
+        <div/><div id="spListContainer" />
       </div>
     </div>`;
 
@@ -191,6 +203,15 @@ export default class JayWebPart extends BaseClientSideWebPart<IJayWebPartProps> 
       }, (e: Error) => {e.message});
       
   }
+
+  private  _getSubSite(): Promise<Subsites> {
+    
+    return this.context.spHttpClient.get(this.context.pageContext.web.absoluteUrl + `/_api/web/webs/?$select=title,ServerRelativeUrl,URL`, SPHttpClient.configurations.v1)
+    .then( (response: SPHttpClientResponse) => {
+        return response.json();
+      }, (e: Error) => {e.message});
+      
+  }
   //#endregion
 
 
@@ -208,7 +229,13 @@ export default class JayWebPart extends BaseClientSideWebPart<IJayWebPartProps> 
     }
     else if (Environment.type == EnvironmentType.SharePoint || 
               Environment.type == EnvironmentType.ClassicSharePoint) {
-                
+               
+        //Get All Subsite
+        
+       this._getSubSite().then((response)=> {
+          this._storeSubSiteInfo(response.value);
+        });
+
         //Get Current Site Lib/List Info
         await this._getListData()
         .then((response) => {
@@ -277,6 +304,31 @@ export default class JayWebPart extends BaseClientSideWebPart<IJayWebPartProps> 
       SPN.push(_item);
         
     }
+  }
+  
+  private _storeSubSiteInfo(items: Subsite[]) 
+  {
+    let html = `<table class="${styles.list}">`;
+    
+    for (let item of items)
+    {
+     
+      if (item != null)
+      {
+      
+        html += `<tr><td class="ms-BrandIcon--icon96 ms-BrandIcon--sharepoint"></td><td>
+        <ul>
+            <li><span class="ms-font-l"><b>Site Name: </b>${item.Title}</span></li>
+            <li><span class="ms-font-l"><b>Site URL: </b>${item.ServerRelativeUrl}</span></li>
+            <li><span class="ms-font-l"><b>URL: </b><a href='${item.Url}/_layouts/15/workbench.aspx'>${item.Title}</a></span></li>
+      </ul></td></tr>`;
+      }
+      
+    }
+    html += `</table><div/><div id="spListContainer" />`;
+    const listContainer2: Element = this.domElement.querySelector('#subsiteList');
+    listContainer2.innerHTML = html;
+
   }
   
 
@@ -400,29 +452,33 @@ export default class JayWebPart extends BaseClientSideWebPart<IJayWebPartProps> 
   private _renderList(SPN: Array<SPNumber>) { 
   
     let html = `<table>`;
-
+    let i = 0;
     for (let item of SPN)
     {      
       if (item != null)
       {
-      
-        html += `<tr><td>
-        <img style="background: black;" src="/_layouts/15/images/ltdl.png?rev=44"></td><td>
+        if (i%2 == 0)
+        {
+          html += `<tr>`;
+        }
+        html += `<td>
         <ul class="${styles.list}">
-            <li><span class="ms-font-l"><b>List Name: </b>${item.Title}</span></li>
-            <li><span class="ms-font-l"><b>List ID: </b>${item.Id}</span></li>
-            <li><span class="ms-font-l"><b>Content Type: </b>${item.NumOfContentType}</span></li>
-            <li><span class="ms-font-l"><b>List Items: </b>${item.NumOfListItem}</span></li>
-            <li><span class="ms-font-l"><b>Field Items: </b>${item.NumOfField}</span></li>
-            <li><span class="ms-font-l"><b>Time Created: </b>${item.Created}</span></li>
-            <li><span class="ms-font-l"><b>Entity Name: </b>${item.EntityTypeName}</span></li>
-            <li><span class="ms-font-l"><b>Total File Count: </b>${item.TotalFileCount}</span></li>
-            <li><span class="ms-font-l"><b>Total File Stream Size: </b>${item.TotalFileStreamSize}</span></li>
-            <li><span class="ms-font-l"><b>Total Size: </b>${item.TotalSize}</span></li>
-            <li><span class="ms-font-l"><input type="button" value="Add library to console stream" /></span></li>
+            <li><div class="ms-BrandIcon--icon96 ms-BrandIcon--dotx"></div><span class="ms-font-s"><b>List Name: </b>${item.Title}</span></li>
+            <li><span class="ms-font-s"><b>Content Type: </b>${item.NumOfContentType}</span></li>
+            <li><span class="ms-font-s"><b>List Items: </b>${item.NumOfListItem}</span></li>
+            <li><span class="ms-font-s"><b>Field Items: </b>${item.NumOfField}</span></li>
+            <li><span class="ms-font-s"><b>Time Created: </b>${item.Created}</span></li>
+            <li><span class="ms-font-s"><b>Total File Count: </b>${item.TotalFileCount}</span></li>
+            <li><span class="ms-font-s"><b>Total File Stream Size: </b>${item.TotalFileStreamSize}</span></li>
+            <li><span class="ms-font-s"><b>Total Size: </b>${item.TotalSize}</span></li>
             <li></li><br/>
             </li>
-      </ul></td></tr>`;
+      </ul></td>`;
+        if (i%2 == 1)
+        {
+          html += `</tr>`;
+        }
+        i++;
       }
       
     }
