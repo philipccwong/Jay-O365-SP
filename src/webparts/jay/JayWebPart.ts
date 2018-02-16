@@ -316,7 +316,7 @@ export default class JayWebPart extends BaseClientSideWebPart<IJayWebPartProps> 
       if (item != null)
       {
       
-        html += `<tr><td class="ms-BrandIcon--icon96 ms-BrandIcon--sharepoint"></td><td>
+        html += `<tr><td><i class="ms-Icon ms-Icon--SharepointLogo" style="font-size: 50px" aria-hidden="true"></i></td><td>
         <ul>
             <li><span class="ms-font-l"><b>Site Name: </b>${item.Title}</span></li>
             <li><span class="ms-font-l"><b>Site URL: </b>${item.ServerRelativeUrl}</span></li>
@@ -451,7 +451,7 @@ export default class JayWebPart extends BaseClientSideWebPart<IJayWebPartProps> 
 
   private _renderList(SPN: Array<SPNumber>) { 
   
-    let html = `<table>`;
+    let html = `<table class="${styles.list}">`;
     let i = 0;
     for (let item of SPN)
     {      
@@ -461,9 +461,9 @@ export default class JayWebPart extends BaseClientSideWebPart<IJayWebPartProps> 
         {
           html += `<tr>`;
         }
-        html += `<td>
-        <ul class="${styles.list}">
-            <li><div class="ms-BrandIcon--icon96 ms-BrandIcon--dotx"></div><span class="ms-font-s"><b>List Name: </b>${item.Title}</span></li>
+        html += `<td><i class="ms-Icon ms-Icon--Documentation" style="font-size: 50px" aria-hidden="true"></i></td><td>
+        <ul>
+            <li><span class="ms-font-s"><b>List Name: </b>${item.Title}</span></li>
             <li><span class="ms-font-s"><b>Content Type: </b>${item.NumOfContentType}</span></li>
             <li><span class="ms-font-s"><b>List Items: </b>${item.NumOfListItem}</span></li>
             <li><span class="ms-font-s"><b>Field Items: </b>${item.NumOfField}</span></li>
@@ -471,7 +471,7 @@ export default class JayWebPart extends BaseClientSideWebPart<IJayWebPartProps> 
             <li><span class="ms-font-s"><b>Total File Count: </b>${item.TotalFileCount}</span></li>
             <li><span class="ms-font-s"><b>Total File Stream Size: </b>${item.TotalFileStreamSize}</span></li>
             <li><span class="ms-font-s"><b>Total Size: </b>${item.TotalSize}</span></li>
-            <li></li><br/>
+            <br/>
             </li>
       </ul></td>`;
         if (i%2 == 1)
