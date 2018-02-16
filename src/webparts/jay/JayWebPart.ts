@@ -320,7 +320,7 @@ export default class JayWebPart extends BaseClientSideWebPart<IJayWebPartProps> 
         <ul>
             <li><span class="ms-font-l"><b>Site Name: </b>${item.Title}</span></li>
             <li><span class="ms-font-l"><b>Site URL: </b>${item.ServerRelativeUrl}</span></li>
-            <li><span class="ms-font-l"><b>URL: </b><a href='${item.Url}/_layouts/15/workbench.aspx'>${item.Title}</a></span></li>
+            <li><span class="ms-font-l"><b>URL: </b><a href='${item.Url}'>${item.Title}</a></span></li>
       </ul></td></tr>`;
       }
       
